@@ -6,15 +6,15 @@ import { User } from './user.entity';
 export class UserNativeQueryService {
   constructor(private readonly manager: EntityManager) {}
 
-  find1Relation() {
-    return this.manager
+  async find1Relation() {
+    return await this.manager
       .createQueryBuilder(User, 'users')
       .leftJoinAndSelect('users.childs1', 'childs1')
       .getMany();
   }
 
-  find10Relation() {
-    return this.manager
+  async find10Relation() {
+    return await this.manager
       .createQueryBuilder(User, 'users')
       .leftJoinAndSelect('users.childs1', 'childs1')
       .leftJoinAndSelect('users.childs2', 'childs2')
@@ -29,8 +29,8 @@ export class UserNativeQueryService {
       .getMany();
   }
 
-  find3Nested() {
-    return this.manager
+  async find3Nested() {
+    return await this.manager
       .createQueryBuilder(User, 'users')
       .leftJoinAndSelect('users.childs1', 'childs1')
       .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
