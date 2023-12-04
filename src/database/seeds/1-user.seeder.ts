@@ -3,7 +3,7 @@ import { User } from '../../user/user.entity';
 import { randFullName } from '@ngneat/falso';
 import { createEntityManager } from '../entity-manager';
 
-export default class CreateUsers implements Seeder {
+export default class CreateUserSeeder implements Seeder {
   public async run(): Promise<void> {
     const entityManager = await createEntityManager();
 
