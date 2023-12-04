@@ -9,7 +9,7 @@ import {
 export enum UserTestCaseEnum {
   T1Relation = 'T1Relation',
   T10Relation = 'T10Relation',
-  T3Nested = 'T10Nested',
+  T3Nested = 'T3Nested',
 }
 
 @Entity()

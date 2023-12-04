@@ -10,26 +10,23 @@ export class UserService {
   async createMany(
     testCase: UserTestCaseEnum,
     length = 1000,
-    parent1Id?: string,
     nested?: {
       testCase: UserTestCaseEnum;
       length: number;
       level: number;
     },
+    parentId?: string,
+    isAllParent?: boolean,
   ): Promise<User[]> {
     const usersCreate: User[] = [];
 
     for (let i = 0; i < length; i++) {
-      const user = new User();
+      let user = new User();
 
       user.name = randFullName();
       user.testCase = testCase;
 
-      if (parent1Id) {
-        user.parent1 = await this.entityManager.findOne(User, {
-          where: { id: parent1Id },
-        });
-      }
+      user = await this.assignRelation(user, parentId, isAllParent);
 
       usersCreate.push(user);
     }
@@ -39,15 +36,41 @@ export class UserService {
     if (nested) {
       for (const user of users) {
         if (nested.level >= 1) {
-          await this.createMany(testCase, nested.length, user.id, {
+          await this.createMany(
             testCase,
-            length: nested.length,
-            level: nested.level - 1,
-          });
+            nested.length,
+            {
+              testCase,
+              length: nested.length,
+              level: nested.level - 1,
+            },
+            user.id,
+            isAllParent,
+          );
         }
       }
     }
 
     return users;
+  }
+
+  private async assignRelation(
+    user: User,
+    parentId: string,
+    isAllParent?: boolean,
+  ) {
+    if (!parentId) return user;
+
+    const parent = await this.entityManager.findOne(User, {
+      where: { id: parentId },
+    });
+
+    const parentCount = isAllParent ? 10 : 1;
+
+    for (let i = 1; i <= parentCount; i++) {
+      user[`parent${i}`] = parent;
+    }
+
+    return user;
   }
 }

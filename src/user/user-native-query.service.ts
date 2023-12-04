@@ -12,7 +12,7 @@ export class UserNativeQueryService {
       .where('users.testCase = :testCase', {
         testCase: UserTestCaseEnum.T1Relation,
       })
-      .leftJoinAndSelect('users.childs1', 'childs1')
+      .innerJoinAndSelect('users.childs1', 'childs1')
       .getMany();
   }
 
@@ -22,16 +22,16 @@ export class UserNativeQueryService {
       .where('users.testCase = :testCase', {
         testCase: UserTestCaseEnum.T10Relation,
       })
-      .leftJoinAndSelect('users.childs1', 'childs1')
-      .leftJoinAndSelect('users.childs2', 'childs2')
-      .leftJoinAndSelect('users.childs3', 'childs3')
-      .leftJoinAndSelect('users.childs4', 'childs4')
-      .leftJoinAndSelect('users.childs5', 'childs5')
-      .leftJoinAndSelect('users.childs6', 'childs6')
-      .leftJoinAndSelect('users.childs7', 'childs7')
-      .leftJoinAndSelect('users.childs8', 'childs8')
-      .leftJoinAndSelect('users.childs9', 'childs9')
-      .leftJoinAndSelect('users.childs10', 'childs10')
+      .innerJoinAndSelect('users.childs1', 'childs1')
+      .innerJoinAndSelect('users.childs2', 'childs2')
+      .innerJoinAndSelect('users.childs3', 'childs3')
+      .innerJoinAndSelect('users.childs4', 'childs4')
+      .innerJoinAndSelect('users.childs5', 'childs5')
+      .innerJoinAndSelect('users.childs6', 'childs6')
+      .innerJoinAndSelect('users.childs7', 'childs7')
+      .innerJoinAndSelect('users.childs8', 'childs8')
+      .innerJoinAndSelect('users.childs9', 'childs9')
+      .innerJoinAndSelect('users.childs10', 'childs10')
       .getMany();
   }
 
@@ -41,10 +41,10 @@ export class UserNativeQueryService {
       .where('users.testCase = :testCase', {
         testCase: UserTestCaseEnum.T3Nested,
       })
-      .leftJoinAndSelect('users.childs1', 'childs1')
-      .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
-      .leftJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1')
-      .leftJoinAndSelect(
+      .innerJoinAndSelect('users.childs1', 'childs1')
+      .innerJoinAndSelect('childs1.childs1', 'childs1_childs1')
+      .innerJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1')
+      .innerJoinAndSelect(
         'childs1_childs1_childs1.childs1',
         'childs1_childs1_childs1_childs1',
       )
