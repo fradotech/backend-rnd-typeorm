@@ -6,6 +6,12 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+export enum UserTestCaseEnum {
+  T1Relation = 'T1Relation',
+  T10Relation = 'T10Relation',
+  T3Nested = 'T10Nested',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -13,6 +19,9 @@ export class User {
 
   @Column()
   name: string;
+
+  @Column({ type: 'varchar', default: null })
+  testCase: UserTestCaseEnum;
 
   // Relation 1
   @ManyToOne(() => User, (user) => user.childs1)

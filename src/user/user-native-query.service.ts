@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { User } from './user.entity';
+import { User, UserTestCaseEnum } from './user.entity';
 
 @Injectable()
 export class UserNativeQueryService {
@@ -9,6 +9,9 @@ export class UserNativeQueryService {
   async find1Relation() {
     return await this.manager
       .createQueryBuilder(User, 'users')
+      .where('users.testCase = :testCase', {
+        testCase: UserTestCaseEnum.T1Relation,
+      })
       .leftJoinAndSelect('users.childs1', 'childs1')
       .getMany();
   }
@@ -16,6 +19,9 @@ export class UserNativeQueryService {
   async find10Relation() {
     return await this.manager
       .createQueryBuilder(User, 'users')
+      .where('users.testCase = :testCase', {
+        testCase: UserTestCaseEnum.T10Relation,
+      })
       .leftJoinAndSelect('users.childs1', 'childs1')
       .leftJoinAndSelect('users.childs2', 'childs2')
       .leftJoinAndSelect('users.childs3', 'childs3')
@@ -32,6 +38,9 @@ export class UserNativeQueryService {
   async find3Nested() {
     return await this.manager
       .createQueryBuilder(User, 'users')
+      .where('users.testCase = :testCase', {
+        testCase: UserTestCaseEnum.T3Nested,
+      })
       .leftJoinAndSelect('users.childs1', 'childs1')
       .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
       .leftJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1')
