@@ -4,11 +4,11 @@ import { UserTestCaseEnum } from './user.entity';
 import { UserIndexRequest } from './user-index.request';
 
 @Controller('users/native')
-export class UserNativeController {
+export class UserNativeQueryController {
   constructor(private readonly userOriginalService: UserNativeQueryService) {}
 
   @Get()
-  async find1Relation(@Query() request: UserIndexRequest) {
+  async index(@Query() request: UserIndexRequest) {
     switch (request.testCase) {
       case UserTestCaseEnum.T1Relation:
         return await this.userOriginalService.find1Relation(request);

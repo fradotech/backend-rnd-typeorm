@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { UserNativeQueryService } from './user-native-query.service';
-import { UserNativeController } from './user-native-query.controller';
+import { UserNativeQueryController } from './user-native-query.controller';
 
 @Module({
-  controllers: [UserNativeController],
+  controllers: [UserNativeQueryController],
   providers: [UserNativeQueryService],
 })
 export class UserModule {}

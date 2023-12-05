@@ -5,10 +5,12 @@ import { DATA_SOURCE } from './data-source';
 export const createEntityManager = async (): Promise<EntityManager> => {
   await DATA_SOURCE.initialize()
     .then(async () => {
-      console.log('\n');
-      Logger.log('Success create connection', 'EntityManager');
+      // Logger.log('Success create connection', 'EntityManager');
     })
-    .catch((error) => Logger.error(error));
+    .catch(async (error) => {
+      const entityManager = await createEntityManager();
+      entityManager.connection.isInitialized && Logger.error(error);
+    });
 
   return new EntityManager(DATA_SOURCE);
 };
