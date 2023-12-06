@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { UserNativeQueryService } from './native-query/user-native-query.service';
-import { UserQueryController } from './user-query.controller';
-import { UserQueryUsecase } from './user-query.usecase';
+import { UserNativeQueryService } from './query/user-native-query.service';
+import { UserQueryController } from './query/user-query.controller';
+import { UserQueryUsecase } from './query/user-query.usecase';
 
 @Module({
   controllers: [UserQueryController],

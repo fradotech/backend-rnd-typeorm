@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UserIndexRequest } from './user-index.request';
-import { UserNativeQueryService } from './native-query/user-native-query.service';
-import { UserTestCaseEnum } from './user.entity';
+import { UserIndexQueryRequest } from './user-index-query.request';
+import { UserNativeQueryService } from './user-native-query.service';
+import { UserTestCaseEnum } from '../user.entity';
 
 @Injectable()
 export class UserQueryUsecase {
@@ -9,7 +9,7 @@ export class UserQueryUsecase {
     private readonly userNativeQueryService: UserNativeQueryService,
   ) {}
 
-  async index(request: UserIndexRequest, isSplit?: boolean) {
+  async index(request: UserIndexQueryRequest, isSplit?: boolean) {
     if (isSplit) {
       return [];
     }
