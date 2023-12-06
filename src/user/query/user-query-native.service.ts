@@ -11,7 +11,7 @@ export class UserQueryNativeService {
     const query = this.manager
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
-        testCase: UserTestCaseEnum.T1Relation,
+        testCase: UserTestCaseEnum.TC1Relation,
       })
       .innerJoinAndSelect('user.childs1', 'childs1');
 
@@ -26,7 +26,7 @@ export class UserQueryNativeService {
     const query = this.manager
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
-        testCase: UserTestCaseEnum.T10Relation,
+        testCase: UserTestCaseEnum.TC10Relation,
       })
       .innerJoinAndSelect('user.childs1', 'childs1')
       .innerJoinAndSelect('user.childs2', 'childs2')
@@ -50,7 +50,7 @@ export class UserQueryNativeService {
     const query = this.manager
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
-        testCase: UserTestCaseEnum.T3Nested,
+        testCase: UserTestCaseEnum.TC3Nested,
       })
       .innerJoinAndSelect('user.childs1', 'childs1')
       .innerJoinAndSelect('childs1.childs1', 'childs1_childs1')

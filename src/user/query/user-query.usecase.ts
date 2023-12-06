@@ -11,20 +11,18 @@ export class UserQueryUsecase {
 
   async index(request: UserQueryIndexRequest, isSplit?: boolean) {
     if (isSplit) {
-      return [];
+      return [{ name: 'TODO: Split!' }];
     }
 
     switch (request.testCase) {
-      case UserTestCaseEnum.T1Relation:
+      case UserTestCaseEnum.TC1Relation:
         return await this.userQueryNativeService.find1Relation(request);
-      case UserTestCaseEnum.T10Relation:
+      case UserTestCaseEnum.TC10Relation:
         return await this.userQueryNativeService.find10Relation(request);
-      case UserTestCaseEnum.T3Nested:
+      case UserTestCaseEnum.TC3Nested:
         return await this.userQueryNativeService.find3Nested(request);
       default:
-        throw new BadRequestException(
-          'Invalid testCase. Valid testCases are: T1Relation, T10Relation, T3Nested',
-        );
+        throw new BadRequestException();
     }
   }
 }

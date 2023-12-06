@@ -7,7 +7,7 @@ export default class User1RelationSeeder implements Seeder {
   public async run(): Promise<void> {
     const userService = new UserService(await createEntityManager());
 
-    const testCase = UserTestCaseEnum.T1Relation;
+    const testCase = UserTestCaseEnum.TC1Relation;
 
     await userService.createMany(testCase, 1000, {
       testCase,

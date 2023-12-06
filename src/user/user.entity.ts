@@ -7,9 +7,9 @@ import {
 } from 'typeorm';
 
 export enum UserTestCaseEnum {
-  T1Relation = 'T1Relation',
-  T10Relation = 'T10Relation',
-  T3Nested = 'T3Nested',
+  TC1Relation = 'TC1Relation',
+  TC10Relation = 'TC10Relation',
+  TC3Nested = 'TC3Nested',
 }
 
 @Entity()

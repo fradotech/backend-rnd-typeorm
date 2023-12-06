@@ -7,7 +7,7 @@ export default class User3NestedSeeder implements Seeder {
   public async run(): Promise<void> {
     const userService = new UserService(await createEntityManager());
 
-    const testCase = UserTestCaseEnum.T3Nested;
+    const testCase = UserTestCaseEnum.TC3Nested;
 
     await userService.createMany(testCase, 100, {
       testCase,
