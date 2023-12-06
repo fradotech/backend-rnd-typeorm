@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { User, UserTestCaseEnum } from './user.entity';
-import { UserIndexRequest } from './user-index.request';
+import { User, UserTestCaseEnum } from '../user.entity';
+import { UserIndexRequest } from '../user-index.request';
 
 @Injectable()
 export class UserNativeQueryService {

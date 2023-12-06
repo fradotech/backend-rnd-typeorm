@@ -1,7 +1,7 @@
 import { UserNativeQueryController } from './user-native-query.controller';
 import { UserNativeQueryService } from './user-native-query.service';
-import { UserTestCaseEnum } from './user.entity';
-import { UserIndexRequest } from './user-index.request';
+import { UserTestCaseEnum } from '../user.entity';
+import { UserIndexRequest } from '../user-index.request';
 import { createEntityManager } from 'src/database/entity-manager';
 import { EntityManager } from 'typeorm';
 
