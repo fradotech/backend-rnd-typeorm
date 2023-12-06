@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { User, UserTestCaseEnum } from '../user.entity';
-import { UserIndexQueryRequest } from './user-index-query.request';
+import { UserQueryIndexRequest } from './user-query-index.request';
 
 @Injectable()
-export class UserNativeQueryService {
+export class UserQueryNativeService {
   constructor(private readonly manager: EntityManager) {}
 
-  async find1Relation({ name }: UserIndexQueryRequest) {
+  async find1Relation({ name }: UserQueryIndexRequest) {
     const query = this.manager
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
@@ -22,7 +22,7 @@ export class UserNativeQueryService {
     return await query.getMany();
   }
 
-  async find10Relation({ name }: UserIndexQueryRequest) {
+  async find10Relation({ name }: UserQueryIndexRequest) {
     const query = this.manager
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
@@ -46,7 +46,7 @@ export class UserNativeQueryService {
     return await query.getMany();
   }
 
-  async find3Nested({ name }: UserIndexQueryRequest) {
+  async find3Nested({ name }: UserQueryIndexRequest) {
     const query = this.manager
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {

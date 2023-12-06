@@ -1,7 +1,7 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { UserTestCaseEnum } from '../user.entity';
 
-export class UserIndexQueryRequest {
+export class UserQueryIndexRequest {
   @IsOptional()
   @IsEnum(UserTestCaseEnum)
   testCase: string;

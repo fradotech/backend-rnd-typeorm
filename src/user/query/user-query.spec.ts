@@ -1,25 +1,25 @@
 import { UserQueryController } from './user-query.controller';
 import { UserTestCaseEnum } from '../user.entity';
-import { UserIndexQueryRequest } from './user-index-query.request';
+import { UserQueryIndexRequest } from './user-query-index.request';
 import { createEntityManager } from 'src/database/entity-manager';
 import { EntityManager } from 'typeorm';
 import { UserQueryUsecase } from './user-query.usecase';
-import { UserNativeQueryService } from './user-native-query.service';
+import { UserQueryNativeService } from './user-query-native.service';
 
 describe(UserQueryController.name, () => {
   let userNativeQueryController: UserQueryController;
-  let userNativeQueryService: UserNativeQueryService;
+  let userQueryNativeService: UserQueryNativeService;
   let userQueryUsecase: UserQueryUsecase;
-  let commonTest: (query: UserIndexQueryRequest) => Promise<void>;
+  let commonTest: (query: UserQueryIndexRequest) => Promise<void>;
   let entityManager: EntityManager;
 
   beforeEach(async () => {
     entityManager = await createEntityManager();
-    userNativeQueryService = new UserNativeQueryService(entityManager);
-    userQueryUsecase = new UserQueryUsecase(userNativeQueryService);
+    userQueryNativeService = new UserQueryNativeService(entityManager);
+    userQueryUsecase = new UserQueryUsecase(userQueryNativeService);
     userNativeQueryController = new UserQueryController(userQueryUsecase);
 
-    commonTest = async (query: UserIndexQueryRequest) => {
+    commonTest = async (query: UserQueryIndexRequest) => {
       const result = await userNativeQueryController.native(query);
       console.log(`Name   : ${result?.[0].name}`);
       console.log(`Length : ${result.length}`);
