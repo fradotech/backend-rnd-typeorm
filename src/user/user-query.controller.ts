@@ -1,10 +1,10 @@
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
-import { UserTestCaseEnum } from '../user.entity';
-import { UserIndexRequest } from '../user-index.request';
-import { UserQueryUsecase } from '../user-query.usecase';
+import { UserTestCaseEnum } from './user.entity';
+import { UserIndexRequest } from './user-index.request';
+import { UserQueryUsecase } from './user-query.usecase';
 
 @Controller('users/native')
-export class UserNativeQueryController {
+export class UserQueryController {
   constructor(private readonly userQueryUsecase: UserQueryUsecase) {}
 
   @Get()
