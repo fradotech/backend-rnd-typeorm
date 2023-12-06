@@ -23,7 +23,7 @@ describe(UserQueryController.name, () => {
     userNativeQueryController = new UserQueryController(userQueryUsecase);
 
     commonTest = async (query: UserIndexRequest) => {
-      const result = await userNativeQueryController.index(query);
+      const result = await userNativeQueryController.native(query);
       console.log(`Name: ${result?.[0].name}`);
       console.log(`Length: ${result.length}`);
 
