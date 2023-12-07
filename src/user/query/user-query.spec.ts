@@ -4,11 +4,16 @@ import { UserQueryIndexRequest } from './user-query-index.request';
 import { createEntityManager } from 'src/database/entity-manager';
 import { UserQueryUsecase } from './user-query.usecase';
 import { UserQueryNativeService } from './user-query-native.service';
+import { UserQuerySplitService } from './user-query-split.service';
 
 describe(UserQueryController.name, async () => {
   const entityManager = await createEntityManager();
   const userQueryNativeService = new UserQueryNativeService(entityManager);
-  const userQueryUsecase = new UserQueryUsecase(userQueryNativeService);
+  const userQuerySplitService = new UserQuerySplitService(entityManager);
+  const userQueryUsecase = new UserQueryUsecase(
+    userQueryNativeService,
+    userQuerySplitService,
+  );
   const userNativeQueryController = new UserQueryController(userQueryUsecase);
 
   const commonTest = async (
@@ -45,14 +50,14 @@ describe(UserQueryController.name, async () => {
   });
 
   describe('WITH WHERE - ' + UserTestCaseEnum.TC1Relation, () => {
-    commonDescribe(UserTestCaseEnum.TC1Relation, 'Grace Paramar');
+    commonDescribe(UserTestCaseEnum.TC1Relation, 'Wirat Ono');
   });
 
   describe('WITH WHERE - ' + UserTestCaseEnum.TC10Relation, () => {
-    commonDescribe(UserTestCaseEnum.TC10Relation, 'Fran Johnson');
+    commonDescribe(UserTestCaseEnum.TC10Relation, 'Hideo Mahato');
   });
 
   describe('WITH WHERE - ' + UserTestCaseEnum.TC3Nested, () => {
-    commonDescribe(UserTestCaseEnum.TC3Nested, 'Ajay James');
+    commonDescribe(UserTestCaseEnum.TC3Nested, 'Jianping Moshe');
   });
 });

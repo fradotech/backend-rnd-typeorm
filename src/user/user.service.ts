@@ -24,7 +24,8 @@ export class UserService {
       let user = new User();
 
       user.name = randFullName();
-      user.testCase = testCase;
+      // Jika parentId tidak ada, maka user.testCase adalah parent
+      user.testCase = !parentId ? testCase : undefined;
 
       user = await this.assignRelation(user, parentId, isAllParent);
 

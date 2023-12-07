@@ -13,7 +13,7 @@ export class UserQueryNativeService {
       .where('user.testCase = :testCase', {
         testCase: UserTestCaseEnum.TC1Relation,
       })
-      .innerJoinAndSelect('user.childs1', 'childs1');
+      .leftJoinAndSelect('user.childs1', 'childs1');
 
     if (name) {
       query.andWhere('childs1.name ilike :name', { name });
@@ -28,16 +28,16 @@ export class UserQueryNativeService {
       .where('user.testCase = :testCase', {
         testCase: UserTestCaseEnum.TC10Relation,
       })
-      .innerJoinAndSelect('user.childs1', 'childs1')
-      .innerJoinAndSelect('user.childs2', 'childs2')
-      .innerJoinAndSelect('user.childs3', 'childs3')
-      .innerJoinAndSelect('user.childs4', 'childs4');
-    // .innerJoinAndSelect('user.childs5', 'childs5')
-    // .innerJoinAndSelect('user.childs6', 'childs6')
-    // .innerJoinAndSelect('user.childs7', 'childs7')
-    // .innerJoinAndSelect('user.childs8', 'childs8')
-    // .innerJoinAndSelect('user.childs9', 'childs9')
-    // .innerJoinAndSelect('user.childs10', 'childs10');
+      .leftJoinAndSelect('user.childs1', 'childs1')
+      .leftJoinAndSelect('user.childs2', 'childs2')
+      .leftJoinAndSelect('user.childs3', 'childs3')
+      .leftJoinAndSelect('user.childs4', 'childs4');
+    // .leftJoinAndSelect('user.childs5', 'childs5')
+    // .leftJoinAndSelect('user.childs6', 'childs6')
+    // .leftJoinAndSelect('user.childs7', 'childs7')
+    // .leftJoinAndSelect('user.childs8', 'childs8')
+    // .leftJoinAndSelect('user.childs9', 'childs9')
+    // .leftJoinAndSelect('user.childs10', 'childs10');
 
     if (name) {
       query.andWhere('childs1.name ilike :name', { name });
@@ -52,9 +52,9 @@ export class UserQueryNativeService {
       .where('user.testCase = :testCase', {
         testCase: UserTestCaseEnum.TC3Nested,
       })
-      .innerJoinAndSelect('user.childs1', 'childs1')
-      .innerJoinAndSelect('childs1.childs1', 'childs1_childs1')
-      .innerJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1');
+      .leftJoinAndSelect('user.childs1', 'childs1')
+      .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
+      .leftJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1');
 
     if (name) {
       query.andWhere('childs1_childs1_childs1.name ilike :name', { name });
