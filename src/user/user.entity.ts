@@ -10,6 +10,7 @@ export enum UserTestCaseEnum {
   TC1Relation = 'TC1Relation',
   TC10Relation = 'TC10Relation',
   TC3Nested = 'TC3Nested',
+  TC2Relation2Nested = 'TC2Relation2Nested',
 }
 
 @Entity()

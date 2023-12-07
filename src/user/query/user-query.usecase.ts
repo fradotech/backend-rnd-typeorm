@@ -34,6 +34,13 @@ export class UserQueryUsecase {
 
         return await this.userQueryNativeService.find3Nested(request);
 
+      case UserTestCaseEnum.TC2Relation2Nested:
+        if (isSplit) {
+          return await this.userQuerySplitService.find2Relation2Nested(request);
+        }
+
+        return await this.userQueryNativeService.find2Relation2Nested(request);
+
       default:
         throw new BadRequestException();
     }

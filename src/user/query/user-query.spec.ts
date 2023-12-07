@@ -49,15 +49,15 @@ describe(UserQueryController.name, async () => {
     commonDescribe(UserTestCaseEnum.TC3Nested);
   });
 
-  describe('WITH WHERE - ' + UserTestCaseEnum.TC1Relation, () => {
+  describe(UserTestCaseEnum.TC1Relation + ' - WITH WHERE', () => {
     commonDescribe(UserTestCaseEnum.TC1Relation, 'Wirat Ono');
   });
 
-  describe('WITH WHERE - ' + UserTestCaseEnum.TC10Relation, () => {
+  describe(UserTestCaseEnum.TC10Relation + ' - WITH WHERE', () => {
     commonDescribe(UserTestCaseEnum.TC10Relation, 'Hideo Mahato');
   });
 
-  describe('WITH WHERE - ' + UserTestCaseEnum.TC3Nested, () => {
+  describe(UserTestCaseEnum.TC3Nested + ' - WITH WHERE', () => {
     commonDescribe(UserTestCaseEnum.TC3Nested, 'Jianping Moshe');
   });
 });

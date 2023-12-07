@@ -118,4 +118,54 @@ export class UserQuerySplitService {
 
     return users;
   }
+
+  async find2Relation2Nested({ name }: UserQueryIndexRequest) {
+    const query = this.manager
+      .createQueryBuilder(User, 'user')
+      .where('user.testCase = :testCase', {
+        testCase: UserTestCaseEnum.TC3Nested,
+      });
+
+    if (name) {
+      query
+        .leftJoinAndSelect('user.childs1', 'childs1')
+        .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
+        .leftJoinAndSelect(
+          'childs1_childs1.childs1',
+          'childs1_childs1_childs1',
+        );
+
+      query.andWhere('childs1_childs1_childs1.name ilike :name', { name });
+    }
+
+    const users = await query.getMany();
+
+    const assignChilds1 = users.map(async (user) => {
+      user.childs1 = await this.manager
+        .createQueryBuilder(User, 'childs1')
+        .leftJoinAndSelect('childs1.parent1', 'parent1')
+        .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
+        .andWhere('parent1.id = :id', { id: user.id })
+        .select('childs1.id')
+        .addSelect('childs1.name')
+        .addSelect('childs1.testCase')
+        .addSelect('childs1_childs1')
+        .getMany();
+
+      user.childs2 = await this.manager
+        .createQueryBuilder(User, 'childs2')
+        .leftJoinAndSelect('childs2.parent2', 'parent2')
+        .leftJoinAndSelect('childs2.childs2', 'childs2_childs2')
+        .andWhere('parent2.id = :id', { id: user.id })
+        .select('childs2.id')
+        .addSelect('childs2.name')
+        .addSelect('childs2.testCase')
+        .addSelect('childs2_childs2')
+        .getMany();
+    });
+
+    await Promise.all(assignChilds1);
+
+    return users;
+  }
 }

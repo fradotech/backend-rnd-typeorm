@@ -9,10 +9,16 @@ export default class User3NestedSeeder implements Seeder {
 
     const testCase = UserTestCaseEnum.TC3Nested;
 
-    await userService.createMany(testCase, 100, {
+    await userService.createMany(
       testCase,
-      length: 10,
-      level: 3,
-    });
+      100,
+      {
+        testCase,
+        length: 10,
+        level: 3,
+      },
+      undefined,
+      true,
+    );
   }
 }

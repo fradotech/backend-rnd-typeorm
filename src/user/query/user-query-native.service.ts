@@ -62,4 +62,22 @@ export class UserQueryNativeService {
 
     return await query.getMany();
   }
+
+  async find2Relation2Nested({ name }: UserQueryIndexRequest) {
+    const query = this.manager
+      .createQueryBuilder(User, 'user')
+      .where('user.testCase = :testCase', {
+        testCase: UserTestCaseEnum.TC3Nested,
+      })
+      .leftJoinAndSelect('user.childs1', 'childs1')
+      .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
+      .leftJoinAndSelect('user.childs2', 'childs2')
+      .leftJoinAndSelect('childs2.childs2', 'childs2_childs2');
+
+    if (name) {
+      query.andWhere('childs1_childs1_childs1.name ilike :name', { name });
+    }
+
+    return await query.getMany();
+  }
 }
