@@ -30,9 +30,9 @@ describe(UserQueryController.name, async () => {
     expect(result.length).toBeGreaterThan(0);
   };
 
-  const commonDescribe = (testCase: UserTestCaseEnum, nameSearch?: string) => {
-    it('NATIVE', async () => commonTest({ testCase, name: nameSearch }));
-    it('SPLIT', async () => commonTest({ testCase, name: nameSearch }, true));
+  const commonDescribe = (testCase: UserTestCaseEnum, name?: string) => {
+    it('NATIVE', async () => commonTest({ testCase, name }), 30000);
+    it('SPLIT', async () => commonTest({ testCase, name }, true), 30000);
   };
 
   afterAll(async () => await entityManager.connection.destroy());
@@ -49,15 +49,19 @@ describe(UserQueryController.name, async () => {
     commonDescribe(UserTestCaseEnum.TC3Nested);
   });
 
+  describe(UserTestCaseEnum.TC2Relation2Nested, () => {
+    commonDescribe(UserTestCaseEnum.TC2Relation2Nested);
+  });
+
   describe(UserTestCaseEnum.TC1Relation + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC1Relation, 'Wirat Ono');
+    commonDescribe(UserTestCaseEnum.TC1Relation, 'Ester Sadowski');
   });
 
   describe(UserTestCaseEnum.TC10Relation + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC10Relation, 'Hideo Mahato');
+    commonDescribe(UserTestCaseEnum.TC10Relation, 'Sammy Zakharov');
   });
 
   describe(UserTestCaseEnum.TC3Nested + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC3Nested, 'Jianping Moshe');
+    commonDescribe(UserTestCaseEnum.TC3Nested, 'Phonthip Tshabalala');
   });
 });

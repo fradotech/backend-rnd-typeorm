@@ -75,7 +75,7 @@ export class UserQueryNativeService {
       .leftJoinAndSelect('childs2.childs2', 'childs2_childs2');
 
     if (name) {
-      query.andWhere('childs1_childs1_childs1.name ilike :name', { name });
+      query.andWhere('childs2_childs2.name ilike :name', { name });
     }
 
     return await query.getMany();
