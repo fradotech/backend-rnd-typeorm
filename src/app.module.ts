@@ -1,16 +1,17 @@
-import { Module, ValidationPipe } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { config } from 'dotenv';
-import { dataSourceOptions } from './database/data-source';
-import { APP_PIPE } from '@nestjs/core';
+import { Module, ValidationPipe } from '@nestjs/common'
+import { APP_PIPE } from '@nestjs/core'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { config } from 'dotenv'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { dataSourceOptions } from './database/data-source'
+import { HealthModule } from './health/health.module'
+import { UserModule } from './user/user.module'
 
-config();
+config()
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), UserModule],
+  imports: [TypeOrmModule.forRoot(dataSourceOptions), HealthModule, UserModule],
   controllers: [AppController],
   providers: [
     AppService,

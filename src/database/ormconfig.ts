@@ -1,6 +1,6 @@
-import { config } from 'dotenv';
+import { config } from 'dotenv'
 
-config();
+config()
 
 module.exports = {
   type: 'postgres',
@@ -10,4 +10,4 @@ module.exports = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   seeds: ['src/database/seeds/**/*{.ts,.js}'],
-};
+}

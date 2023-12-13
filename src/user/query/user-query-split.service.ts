@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { EntityManager } from 'typeorm';
-import { User, UserTestCaseEnum } from '../user.entity';
-import { UserQueryIndexRequest } from './user-query-index.request';
+import { Injectable } from '@nestjs/common'
+import { EntityManager } from 'typeorm'
+import { User, UserTestCaseEnum } from '../user.entity'
+import { UserQueryIndexRequest } from './user-query-index.request'
 
 @Injectable()
 export class UserQuerySplitService {
@@ -12,27 +12,27 @@ export class UserQuerySplitService {
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
         testCase: UserTestCaseEnum.TC1Relation,
-      });
+      })
 
     if (name) {
       query
         .leftJoinAndSelect('user.childs1', 'childs1')
-        .andWhere('childs1.name ilike :name', { name });
+        .andWhere('childs1.name ilike :name', { name })
     }
 
-    const users = await query.getMany();
+    const users = await query.getMany()
 
     const assignChilds1 = users.map(async (user) => {
       user.childs1 = await this.manager
         .createQueryBuilder()
         .relation(User, 'childs1')
         .of(user)
-        .loadMany();
-    });
+        .loadMany()
+    })
 
-    await Promise.all(assignChilds1);
+    await Promise.all(assignChilds1)
 
-    return users;
+    return users
   }
 
   async find10Relation({ name }: UserQueryIndexRequest) {
@@ -40,14 +40,14 @@ export class UserQuerySplitService {
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
         testCase: UserTestCaseEnum.TC10Relation,
-      });
+      })
 
     if (name) {
-      query.leftJoinAndSelect('user.childs1', 'childs1');
-      query.andWhere('childs1.name ilike :name', { name });
+      query.leftJoinAndSelect('user.childs1', 'childs1')
+      query.andWhere('childs1.name ilike :name', { name })
     }
 
-    const users = await query.getMany();
+    const users = await query.getMany()
 
     const relations = [
       'childs1',
@@ -60,7 +60,7 @@ export class UserQuerySplitService {
       // 'childs8',
       // 'childs9',
       // 'childs10',
-    ];
+    ]
 
     const assignRelations = users.flatMap((user) => {
       return relations.map(async (relation) => {
@@ -69,13 +69,13 @@ export class UserQuerySplitService {
           .relation(User, relation)
           .of(user)
           .loadMany()
-          .then((childs) => (user[relation] = childs));
-      });
-    });
+          .then((childs) => (user[relation] = childs))
+      })
+    })
 
-    await Promise.all(assignRelations);
+    await Promise.all(assignRelations)
 
-    return users;
+    return users
   }
 
   async find3Nested({ name }: UserQueryIndexRequest) {
@@ -83,21 +83,18 @@ export class UserQuerySplitService {
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
         testCase: UserTestCaseEnum.TC3Nested,
-      });
+      })
 
     if (name) {
       query
         .leftJoinAndSelect('user.childs1', 'childs1')
         .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
-        .leftJoinAndSelect(
-          'childs1_childs1.childs1',
-          'childs1_childs1_childs1',
-        );
+        .leftJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1')
 
-      query.andWhere('childs1_childs1_childs1.name ilike :name', { name });
+      query.andWhere('childs1_childs1_childs1.name ilike :name', { name })
     }
 
-    const users = await query.getMany();
+    const users = await query.getMany()
 
     const assignChilds1 = users.map(async (user) => {
       user.childs1 = await this.manager
@@ -111,12 +108,12 @@ export class UserQuerySplitService {
         .addSelect('childs1.testCase')
         .addSelect('childs1_childs1')
         .addSelect('childs1_childs1_childs1')
-        .getMany();
-    });
+        .getMany()
+    })
 
-    await Promise.all(assignChilds1);
+    await Promise.all(assignChilds1)
 
-    return users;
+    return users
   }
 
   async find2Relation2Nested({ name }: UserQueryIndexRequest) {
@@ -124,17 +121,17 @@ export class UserQuerySplitService {
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
         testCase: UserTestCaseEnum.TC3Nested,
-      });
+      })
 
     if (name) {
       query
         .leftJoinAndSelect('user.childs1', 'childs1')
-        .leftJoinAndSelect('childs1.childs1', 'childs1_childs1');
+        .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
 
-      query.andWhere('childs1_childs1.name ilike :name', { name });
+      query.andWhere('childs1_childs1.name ilike :name', { name })
     }
 
-    const users = await query.getMany();
+    const users = await query.getMany()
 
     const assignChilds1 = users.map(async (user) => {
       user.childs1 = await this.manager
@@ -146,7 +143,7 @@ export class UserQuerySplitService {
         .addSelect('childs1.name')
         .addSelect('childs1.testCase')
         .addSelect('childs1_childs1')
-        .getMany();
+        .getMany()
 
       user.childs2 = await this.manager
         .createQueryBuilder(User, 'childs2')
@@ -157,11 +154,11 @@ export class UserQuerySplitService {
         .addSelect('childs2.name')
         .addSelect('childs2.testCase')
         .addSelect('childs2_childs2')
-        .getMany();
-    });
+        .getMany()
+    })
 
-    await Promise.all(assignChilds1);
+    await Promise.all(assignChilds1)
 
-    return users;
+    return users
   }
 }
