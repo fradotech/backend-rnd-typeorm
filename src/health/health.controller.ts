@@ -14,13 +14,26 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  check() {
-    const result = this.health.check([
+  async check() {
+    return await this.health.check([
       () => this.memory.checkHeap('memory_heap', 150 * 1024 * 1024),
     ])
+  }
 
-    console.log(result)
+  @Get('memory-usage')
+  @HealthCheck()
+  async memoryUsage() {
+    const memoryUsage = process.memoryUsage()
 
-    return result
+    delete memoryUsage.external
+    delete memoryUsage.arrayBuffers
+
+    for (const [key, value] of Object.entries(memoryUsage)) {
+      memoryUsage[key] = value / 1000000 + ' MB'
+    }
+
+    console.log('MemoryUsage', memoryUsage)
+
+    return memoryUsage
   }
 }
