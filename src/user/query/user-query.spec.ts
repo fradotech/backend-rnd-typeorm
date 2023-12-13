@@ -1,12 +1,26 @@
-import { UserQueryController } from './user-query.controller'
+import { HealthCheckService, MemoryHealthIndicator } from '@nestjs/terminus'
+import { HealthCheckExecutor } from '@nestjs/terminus/dist/health-check/health-check-executor.service'
+import { createEntityManager } from 'src/database/entity-manager'
+import { HealthController } from 'src/health/health.controller'
 import { UserTestCaseEnum } from '../user.entity'
 import { UserQueryIndexRequest } from './user-query-index.request'
-import { createEntityManager } from 'src/database/entity-manager'
-import { UserQueryUsecase } from './user-query.usecase'
 import { UserQueryNativeService } from './user-query-native.service'
 import { UserQuerySplitService } from './user-query-split.service'
+import { UserQueryController } from './user-query.controller'
+import { UserQueryUsecase } from './user-query.usecase'
 
 describe(UserQueryController.name, async () => {
+  const healthCheckService = new HealthCheckService(
+    new HealthCheckExecutor(),
+    null,
+    null,
+  )
+  const memoryHealthIndicator = new MemoryHealthIndicator()
+  const healthController = new HealthController(
+    healthCheckService,
+    memoryHealthIndicator,
+  )
+
   const entityManager = await createEntityManager()
   const userQueryNativeService = new UserQueryNativeService(entityManager)
   const userQuerySplitService = new UserQuerySplitService(entityManager)
@@ -26,6 +40,8 @@ describe(UserQueryController.name, async () => {
 
     console.log(`Name   : ${result?.[0]?.name || 'Failed!'}`)
     console.log(`Length : ${result.length}`)
+
+    await healthController.memoryUsage()
 
     expect(result.length).toBeGreaterThan(0)
   }
