@@ -17,7 +17,7 @@ export class UserQuerySplitService {
     if (name) {
       query
         .leftJoinAndSelect('user.childs1', 'childs1')
-        .andWhere('childs1.name ilike :name', { name })
+        .andWhere('childs1.name ilike :name', { name: `%${name}%` })
     }
 
     const users = await query.getMany()
@@ -44,7 +44,7 @@ export class UserQuerySplitService {
 
     if (name) {
       query.leftJoinAndSelect('user.childs1', 'childs1')
-      query.andWhere('childs1.name ilike :name', { name })
+      query.andWhere('childs1.name ilike :name', { name: `%${name}%` })
     }
 
     const users = await query.getMany()
@@ -91,7 +91,9 @@ export class UserQuerySplitService {
         .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
         .leftJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1')
 
-      query.andWhere('childs1_childs1_childs1.name ilike :name', { name })
+      query.andWhere('childs1_childs1_childs1.name ilike :name', {
+        name: `%${name}%`,
+      })
     }
 
     const users = await query.getMany()
@@ -128,7 +130,7 @@ export class UserQuerySplitService {
         .leftJoinAndSelect('user.childs1', 'childs1')
         .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
 
-      query.andWhere('childs1_childs1.name ilike :name', { name })
+      query.andWhere('childs1_childs1.name ilike :name', { name: `%${name}%` })
     }
 
     const users = await query.getMany()
