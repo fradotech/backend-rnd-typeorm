@@ -1,7 +1,7 @@
 import { Seeder } from 'typeorm-seeding'
+import { UserTestCaseEnum } from '../../user/user.entity'
 import { UserService } from '../../user/user.service'
 import { createEntityManager } from '../entity-manager'
-import { UserTestCaseEnum } from '../../user/user.entity'
 
 export default class User10RelationSeeder implements Seeder {
   public async run(): Promise<void> {
@@ -11,7 +11,7 @@ export default class User10RelationSeeder implements Seeder {
 
     await userService.createMany(
       testCase,
-      100,
+      1000,
       {
         testCase,
         length: 10,

@@ -41,7 +41,8 @@ describe(UserQueryController.name, async () => {
     console.log(`Name   : ${result?.[0]?.name || 'Failed!'}`)
     console.log(`Length : ${result.length}`)
 
-    await healthController.memoryUsage()
+    healthController
+    // await healthController.memoryUsage()
 
     expect(result.length).toBeGreaterThan(0)
   }
@@ -57,27 +58,31 @@ describe(UserQueryController.name, async () => {
     commonDescribe(UserTestCaseEnum.TC1Relation)
   })
 
-  describe(UserTestCaseEnum.TC10Relation, () => {
-    commonDescribe(UserTestCaseEnum.TC10Relation)
-  })
-
-  describe(UserTestCaseEnum.TC3Nested, () => {
-    commonDescribe(UserTestCaseEnum.TC3Nested)
-  })
-
-  describe(UserTestCaseEnum.TC2Relation2Nested, () => {
-    commonDescribe(UserTestCaseEnum.TC2Relation2Nested)
-  })
-
   describe(UserTestCaseEnum.TC1Relation + ' - WITH WHERE', () => {
     commonDescribe(UserTestCaseEnum.TC1Relation, 'Ester Sadowski')
+  })
+
+  describe(UserTestCaseEnum.TC10Relation, () => {
+    commonDescribe(UserTestCaseEnum.TC10Relation)
   })
 
   describe(UserTestCaseEnum.TC10Relation + ' - WITH WHERE', () => {
     commonDescribe(UserTestCaseEnum.TC10Relation, 'Sammy Zakharov')
   })
 
+  describe(UserTestCaseEnum.TC3Nested, () => {
+    commonDescribe(UserTestCaseEnum.TC3Nested)
+  })
+
   describe(UserTestCaseEnum.TC3Nested + ' - WITH WHERE', () => {
     commonDescribe(UserTestCaseEnum.TC3Nested, 'Phonthip Tshabalala')
+  })
+
+  describe(UserTestCaseEnum.TC2Relation2Nested, () => {
+    commonDescribe(UserTestCaseEnum.TC2Relation2Nested)
+  })
+
+  describe(UserTestCaseEnum.TC2Relation2Nested, () => {
+    commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'Phonthip Tshabalala')
   })
 })
