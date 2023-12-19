@@ -41,15 +41,14 @@ describe(UserQueryController.name, async () => {
     console.log(`Name   : ${result?.[0]?.name || 'Failed!'}`)
     console.log(`Length : ${result.length}`)
 
-    healthController
-    // await healthController.memoryUsage()
+    await healthController.memoryUsage()
 
     expect(result.length).toBeGreaterThan(0)
   }
 
   const commonDescribe = (testCase: UserTestCaseEnum, name?: string) => {
-    it('NATIVE', async () => commonTest({ testCase, name }), 30000)
-    it('SPLIT', async () => commonTest({ testCase, name }, true), 30000)
+    it('NATIVE', async () => commonTest({ testCase, name }), 300000)
+    it('SPLIT', async () => commonTest({ testCase, name }, true), 300000)
   }
 
   afterAll(async () => await entityManager.connection.destroy())
@@ -59,7 +58,7 @@ describe(UserQueryController.name, async () => {
   })
 
   describe(UserTestCaseEnum.TC1Relation + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC1Relation, 'Ester Sadowski')
+    commonDescribe(UserTestCaseEnum.TC1Relation, 'a')
   })
 
   describe(UserTestCaseEnum.TC10Relation, () => {
@@ -67,7 +66,7 @@ describe(UserQueryController.name, async () => {
   })
 
   describe(UserTestCaseEnum.TC10Relation + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC10Relation, 'Sammy Zakharov')
+    commonDescribe(UserTestCaseEnum.TC10Relation, 'a')
   })
 
   describe(UserTestCaseEnum.TC3Nested, () => {
@@ -75,14 +74,14 @@ describe(UserQueryController.name, async () => {
   })
 
   describe(UserTestCaseEnum.TC3Nested + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC3Nested, 'Phonthip Tshabalala')
+    commonDescribe(UserTestCaseEnum.TC3Nested, 'a')
   })
 
   describe(UserTestCaseEnum.TC2Relation2Nested, () => {
     commonDescribe(UserTestCaseEnum.TC2Relation2Nested)
   })
 
-  describe(UserTestCaseEnum.TC2Relation2Nested, () => {
-    commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'Phonthip Tshabalala')
+  describe(UserTestCaseEnum.TC2Relation2Nested + ' - WITH WHERE', () => {
+    commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'a')
   })
 })

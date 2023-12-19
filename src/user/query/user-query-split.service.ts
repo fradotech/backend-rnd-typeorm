@@ -54,12 +54,12 @@ export class UserQuerySplitService {
       'childs2',
       'childs3',
       'childs4',
-      // 'childs5',
-      // 'childs6',
-      // 'childs7',
-      // 'childs8',
-      // 'childs9',
-      // 'childs10',
+      'childs5',
+      'childs6',
+      'childs7',
+      'childs8',
+      'childs9',
+      'childs10',
     ]
 
     const assignRelations = users.flatMap((user) => {

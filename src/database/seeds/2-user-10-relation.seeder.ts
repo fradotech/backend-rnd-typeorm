@@ -11,7 +11,7 @@ export default class User10RelationSeeder implements Seeder {
 
     await userService.createMany(
       testCase,
-      1000,
+      250,
       {
         testCase,
         length: 10,

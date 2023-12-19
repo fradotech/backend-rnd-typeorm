@@ -11,7 +11,7 @@ export default class User3NestedSeeder implements Seeder {
 
     await userService.createMany(
       testCase,
-      1000,
+      250,
       {
         testCase,
         length: 10,
