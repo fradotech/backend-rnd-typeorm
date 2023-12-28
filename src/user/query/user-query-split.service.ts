@@ -89,15 +89,14 @@ export class UserQuerySplitService {
       if (whereType === 'exist') {
         console.debug('WHERE TYPE: EXIST')
 
-        // Under construction
         const subQuery = this.manager
-          .createQueryBuilder(User, 'user')
+          .createQueryBuilder(User, 'user2')
           .select('1')
-          .innerJoin('user.childs1', 'childs1')
-          .innerJoin('childs1.childs1', 'childs1_childs1')
-          .innerJoin('childs1_childs1.childs1', 'childs1_childs1_childs1')
-          .where('user.id = user.id')
-          .andWhere('childs1_childs1_childs1.name ilike :name', {
+          .innerJoin('user2.childs1', 'childs1_2')
+          .innerJoin('childs1_2.childs1', 'childs1_childs1_2')
+          .innerJoin('childs1_childs1_2.childs1', 'childs1_childs1_childs1_2')
+          .where('user2.id = user.id')
+          .andWhere('childs1_childs1_childs1_2.name ilike :name', {
             name: `%${name}%`,
           })
 
@@ -166,14 +165,13 @@ export class UserQuerySplitService {
       if (whereType === 'exist') {
         console.debug('WHERE TYPE: EXIST')
 
-        // Under construction
         const subQuery = this.manager
-          .createQueryBuilder(User, 'user')
+          .createQueryBuilder(User, 'user2')
           .select('1')
-          .innerJoin('user.childs1', 'childs1')
-          .innerJoin('childs1.childs1', 'childs1_childs1')
-          .where('user.id = user.id')
-          .andWhere('childs1_childs1.name ilike :name', {
+          .innerJoin('user2.childs1', 'childs1_2')
+          .innerJoin('childs1_2.childs1', 'childs1_childs1_2')
+          .where('user2.id = user.id')
+          .andWhere('childs1_childs1_2.name ilike :name', {
             name: `%${name}%`,
           })
 

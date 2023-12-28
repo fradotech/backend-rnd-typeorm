@@ -62,7 +62,7 @@ describe(UserQueryController.name + ' WHERE', async () => {
     commonDescribe(UserTestCaseEnum.TC3Nested, 'a')
   })
 
-  // describe(UserTestCaseEnum.TC2Relation2Nested + ' - WITH WHERE', () => {
-  //   commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'a')
-  // })
+  describe(UserTestCaseEnum.TC2Relation2Nested + ' - WITH WHERE', () => {
+    commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'a')
+  })
 })
