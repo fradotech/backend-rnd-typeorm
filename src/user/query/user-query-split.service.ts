@@ -118,7 +118,7 @@ export class UserQuerySplitService {
     return users
   }
 
-  async find2Relation2Nested({ name }: UserQueryIndexRequest) {
+  async find2Relation2Nested({ name, whereType }: UserQueryIndexRequest) {
     const query = this.manager
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
@@ -126,11 +126,45 @@ export class UserQuerySplitService {
       })
 
     if (name) {
-      query
-        .leftJoinAndSelect('user.childs1', 'childs1')
-        .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
+      if (whereType === 'exist') {
+        console.debug('WHERE TYPE: EXIST')
 
-      query.andWhere('childs1_childs1.name ilike :name', { name: `%${name}%` })
+        query.andWhereExists(
+          this.manager
+            .createQueryBuilder(User, 'user')
+            .select('1')
+            .innerJoin('user.childs1', 'childs1_child1')
+            .innerJoin('childs1_child1.childs1', 'childs1_childs1_child1')
+            .where('user.id = user.id')
+            .andWhere('childs1_childs1_child1.name ilike :name', {
+              name: `%${name}%`,
+            }),
+        )
+      } else if (whereType === 'in') {
+        console.debug('WHERE TYPE: IN')
+
+        const subQuery = this.manager
+          .createQueryBuilder(User, 'user')
+          .innerJoin('user.childs1', 'childs1_2')
+          .innerJoin('childs1_2.childs1', 'childs1_childs1_2')
+          .where('childs1_childs1_2.name ilike :name', {
+            name: `%${name}%`,
+          })
+          .select('user.id')
+
+        query.andWhere('user.id IN (' + subQuery.getQuery() + ')')
+        query.setParameters(subQuery.getParameters())
+      } else {
+        console.debug('WHERE TYPE: JOIN')
+
+        query
+          .leftJoinAndSelect('user.childs1', 'childs1')
+          .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
+
+        query.andWhere('childs1_childs1.name ilike :name', {
+          name: `%${name}%`,
+        })
+      }
     }
 
     const users = await query.getMany()
@@ -144,6 +178,7 @@ export class UserQuerySplitService {
         .select('childs1.id')
         .addSelect('childs1.name')
         .addSelect('childs1.testCase')
+        .addSelect('childs1.nestedLevel')
         .addSelect('childs1_childs1')
         .getMany()
 
@@ -155,6 +190,7 @@ export class UserQuerySplitService {
         .select('childs2.id')
         .addSelect('childs2.name')
         .addSelect('childs2.testCase')
+        .addSelect('childs2.nestedLevel')
         .addSelect('childs2_childs2')
         .getMany()
     })

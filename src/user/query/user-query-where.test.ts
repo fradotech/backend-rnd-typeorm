@@ -3,13 +3,16 @@ import { HealthCheckExecutor } from '@nestjs/terminus/dist/health-check/health-c
 import { createEntityManager } from '../../database/entity-manager'
 import { HealthController } from '../../health/health.controller'
 import { UserTestCaseEnum } from '../user.entity'
-import { UserQueryIndexRequest } from './user-query-index.request'
+import {
+  UserQueryIndexRequest,
+  UserQueryWhereType,
+} from './user-query-index.request'
 import { UserQueryNativeService } from './user-query-native.service'
 import { UserQuerySplitService } from './user-query-split.service'
 import { UserQueryController } from './user-query.controller'
 import { UserQueryUsecase } from './user-query.usecase'
 
-describe(UserQueryController.name, async () => {
+describe(UserQueryController.name + ' WHERE', async () => {
   const healthCheckService = new HealthCheckService(
     new HealthCheckExecutor(),
     null,
@@ -32,11 +35,12 @@ describe(UserQueryController.name, async () => {
 
   const commonTest = async (
     query: UserQueryIndexRequest,
-    isSplit?: boolean,
+    whereType?: UserQueryWhereType,
   ) => {
     console.log('\n')
-    const result =
-      await userNativeQueryController[isSplit ? 'split' : 'native'](query)
+
+    query.whereType = whereType
+    const result = await userNativeQueryController.split(query)
 
     console.log(`Name   : ${result?.[0]?.name || 'Failed!'}`)
     console.log(`Length : ${result.length}`)
@@ -47,39 +51,12 @@ describe(UserQueryController.name, async () => {
   }
 
   const commonDescribe = (testCase: UserTestCaseEnum, name?: string) => {
-    it('NATIVE', async () => commonTest({ testCase, name }), 300000)
-    it('SPLIT', async () => commonTest({ testCase, name }, true), 300000)
+    it('JOIN', async () => commonTest({ testCase, name }, 'join'), 300000)
+    it('IN', async () => commonTest({ testCase, name }, 'in'), 300000)
+    it('EXIST', async () => commonTest({ testCase, name }, 'exist'), 300000)
   }
 
   afterAll(async () => await entityManager.connection.destroy())
-
-  describe(UserTestCaseEnum.TC1Relation, () => {
-    commonDescribe(UserTestCaseEnum.TC1Relation)
-  })
-
-  describe(UserTestCaseEnum.TC1Relation + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC1Relation, 'a')
-  })
-
-  describe(UserTestCaseEnum.TC10Relation, () => {
-    commonDescribe(UserTestCaseEnum.TC10Relation)
-  })
-
-  describe(UserTestCaseEnum.TC10Relation + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC10Relation, 'a')
-  })
-
-  describe(UserTestCaseEnum.TC3Nested, () => {
-    commonDescribe(UserTestCaseEnum.TC3Nested)
-  })
-
-  describe(UserTestCaseEnum.TC3Nested + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC3Nested, 'a')
-  })
-
-  describe(UserTestCaseEnum.TC2Relation2Nested, () => {
-    commonDescribe(UserTestCaseEnum.TC2Relation2Nested)
-  })
 
   describe(UserTestCaseEnum.TC2Relation2Nested + ' - WITH WHERE', () => {
     commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'a')

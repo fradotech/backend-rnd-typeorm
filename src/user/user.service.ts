@@ -1,6 +1,6 @@
+import { Injectable } from '@nestjs/common'
 import { randFullName } from '@ngneat/falso'
 import { EntityManager } from 'typeorm'
-import { Injectable } from '@nestjs/common'
 import { User, UserTestCaseEnum } from './user.entity'
 
 @Injectable()
@@ -14,6 +14,7 @@ export class UserService {
       testCase: UserTestCaseEnum
       length: number
       level: number
+      initLevel: number
     },
     parentId?: string,
     isAllParent?: boolean,
@@ -26,6 +27,7 @@ export class UserService {
       user.name = randFullName()
       // Jika parentId tidak ada, maka user.testCase adalah parent
       user.testCase = !parentId ? testCase : undefined
+      user.nestedLevel = nested?.initLevel - nested?.level
 
       user = await this.assignRelation(user, parentId, isAllParent)
 
@@ -44,6 +46,7 @@ export class UserService {
               testCase,
               length: nested.length,
               level: nested.level - 1,
+              initLevel: nested.initLevel,
             },
             user.id,
             isAllParent,

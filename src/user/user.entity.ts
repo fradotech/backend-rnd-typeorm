@@ -24,6 +24,9 @@ export class User {
   @Column({ type: 'varchar', default: null })
   testCase: UserTestCaseEnum
 
+  @Column({ default: 0 })
+  nestedLevel: number
+
   // Relation 1
   @ManyToOne(() => User, (user) => user.childs1)
   parent1: User

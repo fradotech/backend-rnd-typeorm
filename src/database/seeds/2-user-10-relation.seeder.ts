@@ -16,6 +16,7 @@ export default class User10RelationSeeder implements Seeder {
         testCase,
         length: 10,
         level: 1,
+        initLevel: 1,
       },
       undefined,
       true,

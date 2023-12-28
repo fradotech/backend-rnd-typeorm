@@ -16,6 +16,7 @@ export default class User3NestedSeeder implements Seeder {
         testCase,
         length: 10,
         level: 3,
+        initLevel: 3,
       },
       undefined,
       true,
