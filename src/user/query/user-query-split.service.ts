@@ -129,17 +129,17 @@ export class UserQuerySplitService {
       if (whereType === 'exist') {
         console.debug('WHERE TYPE: EXIST')
 
-        query.andWhereExists(
-          this.manager
-            .createQueryBuilder(User, 'user')
-            .select('1')
-            .innerJoin('user.childs1', 'childs1_child1')
-            .innerJoin('childs1_child1.childs1', 'childs1_childs1_child1')
-            .where('user.id = user.id')
-            .andWhere('childs1_childs1_child1.name ilike :name', {
-              name: `%${name}%`,
-            }),
-        )
+        const subQuery = this.manager
+          .createQueryBuilder(User, 'user')
+          .select('1')
+          .innerJoin('user.childs1', 'childs1_child1')
+          .innerJoin('childs1_child1.childs1', 'childs1_childs1_child1')
+          .where('user.id = user.id')
+          .andWhere('childs1_childs1_child1.name ilike :name', {
+            name: `%${name}%`,
+          })
+
+        query.andWhereExists(subQuery)
       } else if (whereType === 'in') {
         console.debug('WHERE TYPE: IN')
 
