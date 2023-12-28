@@ -78,7 +78,7 @@ export class UserQuerySplitService {
     return users
   }
 
-  async find3Nested({ name }: UserQueryIndexRequest) {
+  async find3Nested({ name, whereType }: UserQueryIndexRequest) {
     const query = this.manager
       .createQueryBuilder(User, 'user')
       .where('user.testCase = :testCase', {
@@ -86,14 +86,51 @@ export class UserQuerySplitService {
       })
 
     if (name) {
-      query
-        .leftJoinAndSelect('user.childs1', 'childs1')
-        .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
-        .leftJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1')
+      if (whereType === 'exist') {
+        console.debug('WHERE TYPE: EXIST')
 
-      query.andWhere('childs1_childs1_childs1.name ilike :name', {
-        name: `%${name}%`,
-      })
+        // Under construction
+        const subQuery = this.manager
+          .createQueryBuilder(User, 'user')
+          .select('1')
+          .innerJoin('user.childs1', 'childs1')
+          .innerJoin('childs1.childs1', 'childs1_childs1')
+          .innerJoin('childs1_childs1.childs1', 'childs1_childs1_childs1')
+          .where('user.id = user.id')
+          .andWhere('childs1_childs1_childs1.name ilike :name', {
+            name: `%${name}%`,
+          })
+
+        query.andWhereExists(subQuery)
+      } else if (whereType === 'in') {
+        console.debug('WHERE TYPE: IN')
+
+        const subQuery = this.manager
+          .createQueryBuilder(User, 'user')
+          .innerJoin('user.childs1', 'childs1')
+          .innerJoin('childs1.childs1', 'childs1_childs1')
+          .innerJoin('childs1_childs1.childs1', 'childs1_childs1_childs1')
+          .where('childs1_childs1_childs1.name ilike :name', {
+            name: `%${name}%`,
+          })
+          .select('user.id')
+
+        query.andWhere('user.id IN (' + subQuery.getQuery() + ')')
+        query.setParameters(subQuery.getParameters())
+      } else {
+        console.debug('WHERE TYPE: JOIN')
+        query
+          .leftJoinAndSelect('user.childs1', 'childs1')
+          .leftJoinAndSelect('childs1.childs1', 'childs1_childs1')
+          .leftJoinAndSelect(
+            'childs1_childs1.childs1',
+            'childs1_childs1_childs1',
+          )
+
+        query.andWhere('childs1_childs1_childs1.name ilike :name', {
+          name: `%${name}%`,
+        })
+      }
     }
 
     const users = await query.getMany()
@@ -129,13 +166,14 @@ export class UserQuerySplitService {
       if (whereType === 'exist') {
         console.debug('WHERE TYPE: EXIST')
 
+        // Under construction
         const subQuery = this.manager
           .createQueryBuilder(User, 'user')
           .select('1')
-          .innerJoin('user.childs1', 'childs1_child1')
-          .innerJoin('childs1_child1.childs1', 'childs1_childs1_child1')
+          .innerJoin('user.childs1', 'childs1')
+          .innerJoin('childs1.childs1', 'childs1_childs1')
           .where('user.id = user.id')
-          .andWhere('childs1_childs1_child1.name ilike :name', {
+          .andWhere('childs1_childs1.name ilike :name', {
             name: `%${name}%`,
           })
 
@@ -145,9 +183,9 @@ export class UserQuerySplitService {
 
         const subQuery = this.manager
           .createQueryBuilder(User, 'user')
-          .innerJoin('user.childs1', 'childs1_2')
-          .innerJoin('childs1_2.childs1', 'childs1_childs1_2')
-          .where('childs1_childs1_2.name ilike :name', {
+          .innerJoin('user.childs1', 'childs1')
+          .innerJoin('childs1.childs1', 'childs1_childs1')
+          .where('childs1_childs1.name ilike :name', {
             name: `%${name}%`,
           })
           .select('user.id')

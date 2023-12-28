@@ -58,7 +58,11 @@ describe(UserQueryController.name + ' WHERE', async () => {
 
   afterAll(async () => await entityManager.connection.destroy())
 
-  describe(UserTestCaseEnum.TC2Relation2Nested + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'a')
+  describe(UserTestCaseEnum.TC3Nested + ' - WITH WHERE', () => {
+    commonDescribe(UserTestCaseEnum.TC3Nested, 'a')
   })
+
+  // describe(UserTestCaseEnum.TC2Relation2Nested + ' - WITH WHERE', () => {
+  //   commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'a')
+  // })
 })
