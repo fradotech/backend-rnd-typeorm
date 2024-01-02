@@ -32,7 +32,7 @@ export class HealthController {
       memoryUsage[key] = value / 1000000 + ' MB'
     }
 
-    console.log('MemoryUsage', memoryUsage)
+    console.log('MemoryUsage (RSS):', memoryUsage.rss)
 
     return memoryUsage
   }
