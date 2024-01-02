@@ -38,7 +38,7 @@ describe(UserQueryController.name, async () => {
     const result =
       await userNativeQueryController[isSplit ? 'split' : 'native'](query)
 
-    console.log(`Name   : ${result?.[0]?.name || 'Failed!'}`)
+    console.log(`Name   : ${result?.[0]?.name1 || 'Failed!'}`)
     console.log(`Length : ${result.length}`)
 
     await healthController.memoryUsage()

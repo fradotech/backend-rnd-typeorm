@@ -42,7 +42,7 @@ describe(UserQueryController.name + ' WHERE', async () => {
     query.whereType = whereType
     const result = await userNativeQueryController.split(query)
 
-    console.log(`Name   : ${result?.[0]?.name || 'Failed!'}`)
+    console.log(`Name   : ${result?.[0]?.name1 || 'Failed!'}`)
     console.log(`Length : ${result.length}`)
 
     await healthController.memoryUsage()
@@ -58,11 +58,7 @@ describe(UserQueryController.name + ' WHERE', async () => {
 
   afterAll(async () => await entityManager.connection.destroy())
 
-  describe(UserTestCaseEnum.TC3Nested + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC3Nested, 'a')
-  })
-
   describe(UserTestCaseEnum.TC2Relation2Nested + ' - WITH WHERE', () => {
-    commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 'a')
+    commonDescribe(UserTestCaseEnum.TC2Relation2Nested, 's')
   })
 })

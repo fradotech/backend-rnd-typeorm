@@ -24,7 +24,10 @@ export class UserService {
     for (let i = 0; i < length; i++) {
       let user = new User()
 
-      user.name = randFullName()
+      user.name1 = randFullName()
+      user.name2 = randFullName()
+      user.name3 = randFullName()
+
       // Jika parentId tidak ada, maka user.testCase adalah parent
       user.testCase = !parentId ? testCase : undefined
       user.nestedLevel = nested?.initLevel - nested?.level

@@ -19,7 +19,13 @@ export class User {
   id: string
 
   @Column()
-  name: string
+  name1: string
+
+  @Column()
+  name2: string
+
+  @Column()
+  name3: string
 
   @Column({ type: 'varchar', default: null })
   testCase: UserTestCaseEnum

@@ -16,7 +16,7 @@ export class UserQueryNativeService {
       .leftJoinAndSelect('user.childs1', 'childs1')
 
     if (name) {
-      query.andWhere('childs1.name ilike :name', { name: `%${name}%` })
+      query.andWhere('childs1.name1 ilike :name', { name: `%${name}%` })
     }
 
     return await query.getMany()
@@ -40,7 +40,7 @@ export class UserQueryNativeService {
     // .leftJoinAndSelect('user.childs10', 'childs10');
 
     if (name) {
-      query.andWhere('childs1.name ilike :name', { name: `%${name}%` })
+      query.andWhere('childs1.name1 ilike :name', { name: `%${name}%` })
     }
 
     return await query.getMany()
@@ -57,7 +57,7 @@ export class UserQueryNativeService {
       .leftJoinAndSelect('childs1_childs1.childs1', 'childs1_childs1_childs1')
 
     if (name) {
-      query.andWhere('childs1_childs1_childs1.name ilike :name', {
+      query.andWhere('childs1_childs1_childs1.name1 ilike :name', {
         name: `%${name}%`,
       })
     }
@@ -77,7 +77,7 @@ export class UserQueryNativeService {
       .leftJoinAndSelect('childs2.childs2', 'childs2_childs2')
 
     if (name) {
-      query.andWhere('childs2_childs2.name ilike :name', { name: `%${name}%` })
+      query.andWhere('childs2_childs2.name1 ilike :name', { name: `%${name}%` })
     }
 
     return await query.getMany()
